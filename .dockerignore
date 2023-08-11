@@ -1,0 +1,5 @@
+.git
+.dockerignore
+.env
+dockerized_rails/vendor/bundle/
+dockerized_rails/tmp/

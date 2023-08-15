@@ -51,6 +51,17 @@ services:
     ports:
       - '8020:8020'
 
+  elasticsearch:
+    image: elasticsearch:7.17.10
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - dockerized-rails-elasticsearch:/usr/share/elasticsearch/data
+
 volumes:
   dockerized-rails-postgres:
   dockerized-rails-redis:
+  dockerized-rails-elasticsearch:
+  

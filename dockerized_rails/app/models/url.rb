@@ -1,4 +1,6 @@
 class Url < ApplicationRecord
+  include Searchable
+  
   validates :long_url, presence: true, length: { minimum: 10 }
   before_create :assign_short_url
 

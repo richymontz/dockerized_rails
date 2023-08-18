@@ -16,9 +16,22 @@ class UrlsController < ApplicationController
     render json: { error: true, message: e.message }, status: 404
   end
 
+  def web_sites
+    title = params[:title]
+    results = Url.search(title)
+
+    response = build_url_records(results)
+
+    render json: response, status: :ok
+  end
+
   private
 
   def url_attributes
     params.permit(:url)
+  end
+
+  def build_url_records(results)
+    results.map { |result| result._source.except(:id, :created_at, :updated_at) }
   end
 end

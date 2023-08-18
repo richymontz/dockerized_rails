@@ -1,7 +1,5 @@
-require 'bcrypt'
-
 class Url < ApplicationRecord
-  validates :long_url, presence: true, length: { minimum: 10}
+  validates :long_url, presence: true, length: { minimum: 10 }
   before_create :assign_short_url
 
   def self.generate_short_url(string)
@@ -11,6 +9,6 @@ class Url < ApplicationRecord
   private
 
   def assign_short_url
-    short_url = self.class.generate_short_url long_url
+    self.short_url = self.class.generate_short_url long_url
   end
 end

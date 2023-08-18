@@ -7,6 +7,6 @@ class TitleCrawlerJob < ApplicationJob
     scraper = Scraper.new(url.long_url)
     title_text = scraper.crawl_by_tagname('title').text
     
-    url.update!(title: text)
+    url.update!(title: title_text)
   end
 end

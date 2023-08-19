@@ -2,20 +2,20 @@ require 'rails_helper'
 
 RSpec.describe "Urls", type: :request do
   describe "POST /create_url", focus: true do
-    let(:parsed_response) { JSON.parse(response.body) }
-    let(:long_url) { 'http://www.google.com' }
+    let(:parsed_response) { response.parsed_body }
+    let(:long_url) { 'http://localhost:3000/example' }
     let(:expected_response) do
       {
         long_url: long_url,
         short_url: Url.generate_short_url(long_url),
-        title: nil
+        title: nil,
       }
     end
 
     before do
       post "/create_url", params: { url: long_url }
     end
-    
+
     it { expect(response).to have_http_status(:created) }
     it { expect(parsed_response['long_url']).to eq(expected_response[:long_url]) }
     it { expect(parsed_response['short_url']).to eq(expected_response[:short_url]) }
@@ -50,11 +50,11 @@ RSpec.describe "Urls", type: :request do
 
   describe "GET /web_sites" do
     let!(:url) { create(:url, :with_title) }
-    let(:parsed_response) { JSON.parse(response.body) }
+    let(:parsed_response) { response.parsed_body }
 
     context "when the endpoint response with results" do
       before do
-        get "/web_sites", params: {title: url.title}
+        get "/web_sites", params: { title: url.title }
       end
 
       it "returns status OK" do
@@ -62,7 +62,10 @@ RSpec.describe "Urls", type: :request do
       end
 
       it "returns url results" do
-        expect(parsed_response.length >= 1).to eq(true)
+        expect(parsed_response.length >= 1).to be(true)
+        expect(parsed_response[0]['long_url']).not_to be(nil)
+        expect(parsed_response[0]['short_url']).not_to be(nil)
+        expect(parsed_response[0]['title']).not_to be(nil)
       end
     end
   end

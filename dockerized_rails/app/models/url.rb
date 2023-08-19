@@ -18,7 +18,7 @@ class Url < ApplicationRecord
   end
 
   def crawl_title
-    TitleCrawlerJob.perform_now(id)
+    TitleCrawlerJob.perform_later(id)
   end
 
   def reindex

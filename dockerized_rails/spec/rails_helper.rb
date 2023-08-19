@@ -5,7 +5,6 @@ require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
-
 require "sidekiq/testing"
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -34,6 +33,9 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
+
+DatabaseCleaner.allow_remote_database_url = true
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -65,4 +67,14 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.include ActiveJob::TestHelper
+
+  config.before(:all) do
+    DatabaseCleaner.start
+  end
+  
+  config.after(:all) do
+    DatabaseCleaner.clean
+  end
 end

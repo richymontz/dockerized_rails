@@ -3,7 +3,6 @@ class Url < ApplicationRecord
   
   validates :long_url, presence: true, length: { minimum: 10 }
   
-  
   before_create :assign_short_url
   after_create :crawl_title
   after_update :reindex

@@ -1,7 +1,7 @@
 class UrlsController < ApplicationController
   def create
     @url = Url.create!(long_url: url_attributes[:url])
-    
+
     render json: @url, status: :created
   rescue StandardError => e
     render json: { error: true, message: e.message }, status: 400

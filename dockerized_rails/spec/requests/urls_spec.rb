@@ -47,4 +47,23 @@ RSpec.describe "Urls", type: :request do
       end
     end
   end
+
+  describe "GET /web_sites" do
+    let!(:url) { create(:url, :with_title) }
+    let(:parsed_response) { JSON.parse(response.body) }
+
+    context "when the endpoint response with results" do
+      before do
+        get "/web_sites", params: {title: url.title}
+      end
+
+      it "returns status OK" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns url results" do
+        expect(parsed_response.length >= 1).to eq(true)
+      end
+    end
+  end
 end

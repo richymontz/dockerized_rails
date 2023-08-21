@@ -7,7 +7,7 @@ In this open REST API we are able to post a long url from a website and get a sh
 create volumes for postgresql and redis first
 
     docker volume create --name dockerized-rails-postgres
-    docker volume create --name dockerized-rails-redis plugins
+    docker volume create --name dockerized-rails-redis
 
 After create them, you should run:
 
